@@ -198,16 +198,53 @@
         .oferta-especial-wrapper.oferta-activa {
             opacity: 1; visibility: visible; max-height: 1500px; padding: 120px 5%;
             border-top: 2px dashed var(--gta-rojo); border-bottom: 2px dashed var(--gta-rojo);
+            /* ✨ NUEVO: Fondo Hacker animado (Scanlines) para el proceso de pago ✨ */
+            background: 
+                linear-gradient(rgba(10, 5, 5, 0.9), rgba(10, 10, 12, 0.95)),
+                repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(229, 57, 53, 0.08) 2px, rgba(229, 57, 53, 0.08) 4px) !important;
+            background-size: 100% 4px !important;
+            animation: moverScanlines 12s linear infinite;
+        }
+
+        @keyframes moverScanlines {
+            0% { background-position: 0 0; }
+            100% { background-position: 0 100vh; }
         }
 
         /* Tarjeta ultra llamativa */
         .offer-card { 
-            border: 3px solid var(--gta-rojo) !important; 
+            border: none !important; /* Quitamos el borde para usar el efecto neon */
             box-shadow: var(--shadow-rojo) !important; 
             transform: scale(1.05); 
             background: linear-gradient(180deg, #180a0a 0%, var(--gta-gris-oscuro) 100%) !important;
             animation: flotarOferta 3s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
         }
+
+        /* ✨ NUEVO: Borde de neón giratorio para el proceso de pago ✨ */
+        .offer-card::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%; width: 200%; height: 200%;
+            background: conic-gradient(transparent, transparent, transparent, var(--gta-rojo));
+            animation: rotarBorde 3.5s linear infinite;
+            z-index: -2;
+        }
+        .offer-card::after {
+            content: '';
+            position: absolute;
+            inset: 3px;
+            background: linear-gradient(180deg, #180a0a 0%, var(--gta-gris-oscuro) 100%);
+            border-radius: 8px;
+            z-index: -1;
+        }
+        @keyframes rotarBorde {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
         @keyframes flotarOferta { 0%, 100% { transform: scale(1.05) translateY(0); } 50% { transform: scale(1.05) translateY(-10px); } }
 
         .urgency-ribbon { background: var(--gta-rojo); color: white; text-align: center; font-weight: bold; padding: 8px; font-size: 0.9rem; letter-spacing: 2px; text-transform: uppercase; animation: flashText 2s infinite; }
@@ -230,7 +267,14 @@
         #pricing { background: var(--gta-asfalto); }
         .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
         .pack-card { background: var(--gta-gris-oscuro); border: 1px solid var(--borde-sutil); border-radius: 10px; overflow: hidden; transition: var(--transition-slow); display: flex; flex-direction: column; position: relative; }
-        .pack-card:hover { transform: translateY(-15px); box-shadow: var(--shadow-box); }
+        
+        /* ✨ NUEVO: Levitación suave al pasar el mouse por las tarjetas ✨ */
+        .pack-card:hover { transform: translateY(-15px); box-shadow: var(--shadow-box); animation: flotarPack 3s ease-in-out infinite; }
+        @keyframes flotarPack {
+            0%, 100% { transform: translateY(-15px); }
+            50% { transform: translateY(-25px); }
+        }
+
         .pack-header { padding: 40px 30px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .pack-icon { font-size: 3rem; margin-bottom: 15px; display: block; }
         .pack-name { font-family: var(--font-titulo); font-size: 2.5rem; letter-spacing: 2px; margin-bottom: 10px; }
@@ -249,6 +293,25 @@
 
         .btn-buy { display: block; width: 100%; text-align: center; padding: 20px; background: var(--borde-sutil); color: var(--blanco); font-family: var(--font-titulo); font-size: 1.8rem; text-decoration: none; transition: var(--transition-fast); border-radius: 6px; letter-spacing: 1px; font-weight: bold;}
         .pack-card:hover .btn-buy { background: var(--gta-naranja); color: #000; }
+
+        /* ✨ NUEVO: Efecto de brillo pasando (Shimmer) en todos los botones fiesteros ✨ */
+        .btn-primary, .btn-buy, .btn-full, .btn-promo-top, .btn-form-resena {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary::before, .btn-buy::before, .btn-full::before, .btn-promo-top::before, .btn-form-resena::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -150%; width: 50%; height: 100%;
+            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
+            transform: skewX(-25deg);
+            animation: brilloBoton 4s infinite;
+        }
+        @keyframes brilloBoton {
+            0% { left: -150%; }
+            20% { left: 200%; }
+            100% { left: 200%; }
+        }
 
         .pack-starter { border-top: 5px solid #A8E6CF; } .pack-starter .pack-name { color: #A8E6CF; }
         .pack-basic { border-top: 5px solid #FF8C00; } .pack-basic .pack-name { color: #FF8C00; }
@@ -410,9 +473,15 @@
         <div class="hero-content reveal active">
             <div class="tag-vip">✅ AGENCIA #1 DE INYECCIÓN EN PC</div>
             <h1 class="hero-title">CONVIÉRTETE EN EL <span>REY</span> DE LA SESIÓN</h1>
-            
+
+            <div style="background: rgba(229, 57, 53, 0.15); border-left: 4px solid #e53935; padding: 10px 20px; display: inline-block; margin-bottom: 30px; border-radius: 4px;">
+                <p style="color: #ffffff; font-size: 1.1rem; font-weight: bold; margin: 0;">
+                    ⚠️ IMPORTANTE: Servicio exclusivo para GTA V PC (Legacy).<br>No compatible con Consolas ni "Enhanced Edition".
+                </p>
+            </div>
+
             <div class="typing-wrapper">
-                <span class="typing-text" id="typewriter-text"></span><span class="cursor"></span>
+                <span class="typing-text">Protección Anti-Ban 100% Garantizada</span><span class="cursor"></span>
             </div>
             
             <div class="hero-buttons">
@@ -776,8 +845,8 @@
                 <h4 class="footer-title">COMUNIDAD Y REDES</h4>
                 <div class="social-buttons">
                     <a href="https://discord.gg/mCbfECYDjK" target="_blank" class="social-btn discord" title="Discord">💬</a>
-                    <a href="#" class="social-btn youtube" title="YouTube">▶️</a>
-                    <a href="#" class="social-btn instagram" title="Instagram">📷</a>
+                    <a href="https://www.youtube.com/@delperro.services" class="social-btn youtube" title="YouTube">▶️</a>
+                    <a href="https://www.instagram.com/delperro.services/" class="social-btn instagram" title="Instagram">📷</a>
                     <a href="#" class="social-btn tiktok" title="TikTok">🎵</a>
                 </div>
                 <p style="color: var(--texto-muted); font-size: 0.85rem; margin-top: 15px;">Únete al Discord para soporte inmediato.</p>
@@ -930,5 +999,134 @@
         controlarOfertaFinDeSemana(); 
 
     </script>
+
+    <div class="modal" id="modalCompra">
+        <div class="modal-box modal-compra-box">
+            <button class="btn-close" onclick="closeModal('modalCompra')">&times;</button>
+            
+            <h3 class="modal-titulo-compra">FINALIZAR COMPRA</h3>
+            <p class="modal-subtitulo-compra">Elegí tu método de pago</p>
+
+            <div style="background: rgba(229, 57, 53, 0.15); border: 1px dashed #e53935; padding: 12px; border-radius: 6px; margin-bottom: 20px; text-align: center;">
+                <p style="color: #ff8a80; font-size: 0.9rem; font-weight: bold; margin: 0;">
+                    🛑 ALTO AHÍ: Solo para GTA V Legacy (PC).<br>Si jugás en consola (PS5/Xbox) o Enhanced Edition, NO transfieras.
+                </p>
+            </div>
+
+            <a href="https://drive.google.com/file/d/1_TOywKpPqu0iukLSeRhPxjqqlcQQHSyw/view?usp=sharing" target="_blank" class="btn-pdf">
+                📄 VER GUÍA DE ENTREGA
+            </a>
+
+            <div class="payment-methods">
+                <div class="pay-card">
+                    <span class="pay-icon">💳</span>
+                    <span class="pay-name">Ualá</span>
+                </div>
+                <div class="pay-card">
+                    <span class="pay-icon">💙</span>
+                    <span class="pay-name">Mercado Pago</span>
+                </div>
+                <div class="pay-card">
+                    <span class="pay-icon">🏦</span>
+                    <span class="pay-name">Transferencia</span>
+                </div>
+            </div>
+
+            <div class="datos-transferencia">
+                <p class="datos-titulo">DATOS PARA TRANSFERENCIA</p>
+                <div class="alias-box">
+                    <span id="aliasText">dps.ledesma.mp</span>
+                    <button id="btnCopyAlias" onclick="copyAlias()">COPIAR ALIAS</button>
+                </div>
+            </div>
+
+            <a href="https://discord.gg/mCbfECYDjK" target="_blank" class="btn-full btn-ya-pague">
+                <span class="check-icon">✔</span> YA REALICÉ EL PAGO
+                <span class="subtext-pago">Enviar comprobante por Discord</span>
+            </a>
+        </div>
+    </div>
+
+<style>
+    .modal-compra-box {
+        max-width: 550px !important;
+        background: linear-gradient(180deg, var(--gta-gris-oscuro) 0%, #08080a 100%) !important;
+        border: 1px solid var(--borde-sutil) !important;
+        border-top: 5px solid var(--gta-naranja) !important;
+        box-shadow: 0 0 40px rgba(240, 154, 55, 0.15) !important;
+        padding: 40px 30px !important;
+    }
+    .modal-titulo-compra {
+        font-family: var(--font-titulo); font-size: 3rem; color: var(--blanco);
+        text-align: center; margin-bottom: 5px; letter-spacing: 2px;
+    }
+    .modal-subtitulo-compra {
+        text-align: center; color: var(--texto-muted); margin-bottom: 25px; font-size: 1rem;
+    }
+    .btn-pdf {
+        display: block; width: 100%; text-align: center; background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--borde-sutil); color: var(--blanco); padding: 15px;
+        border-radius: 6px; text-decoration: none; font-weight: bold; margin-bottom: 30px;
+        transition: var(--transition-fast); letter-spacing: 1px;
+    }
+    .btn-pdf:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--blanco); transform: translateY(-2px); }
+    .payment-methods { display: flex; gap: 15px; margin-bottom: 25px; justify-content: center; flex-wrap: wrap; }
+    .pay-card {
+        background: var(--gta-gris-claro); border: 1px solid var(--borde-sutil); padding: 15px;
+        border-radius: 8px; cursor: pointer; transition: var(--transition-fast); flex: 1; min-width: 130px;
+        text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px;
+    }
+    .pay-card:hover {
+        border-color: var(--gta-naranja); transform: translateY(-5px);
+        box-shadow: var(--shadow-glow); background: rgba(240, 154, 55, 0.05);
+    }
+    .pay-icon { font-size: 1.8rem; line-height: 1; }
+    .pay-name { font-size: 0.9rem; font-weight: 600; color: var(--blanco); }
+    .datos-transferencia {
+        background: rgba(0,0,0,0.4); border-radius: 8px; padding: 20px;
+        border: 1px dashed rgba(240, 154, 55, 0.3); margin-bottom: 25px;
+    }
+    .datos-titulo { color: var(--gta-naranja); font-weight: 700; text-align: center; font-size: 0.9rem; letter-spacing: 1px; margin-bottom: 10px; }
+    .alias-box { display: flex; align-items: center; justify-content: space-between; background: #000; padding: 12px 15px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); }
+    #aliasText { font-family: monospace; font-size: 1.2rem; color: var(--blanco); letter-spacing: 1px; }
+    #btnCopyAlias { background: var(--gta-naranja); color: #000; border: none; padding: 8px 15px; border-radius: 4px; font-weight: bold; font-size: 0.85rem; cursor: pointer; transition: all 0.3s ease; animation: pulseAlias 2s infinite; }
+    #btnCopyAlias:hover { background: var(--blanco); transform: scale(1.05); }
+    @keyframes pulseAlias { 0% { box-shadow: 0 0 0 0 rgba(240, 154, 55, 0.5); } 70% { box-shadow: 0 0 0 10px rgba(240, 154, 55, 0); } 100% { box-shadow: 0 0 0 0 rgba(240, 154, 55, 0); } }
+    .btn-ya-pague { background: var(--gta-verde) !important; display: flex; flex-direction: column; align-items: center; justify-content: center; text-decoration: none; line-height: 1.2; border: 2px solid transparent; padding: 15px !important; }
+    .btn-ya-pague:hover { background: transparent !important; border-color: var(--gta-verde); color: var(--gta-verde) !important; }
+    .check-icon { margin-right: 5px; }
+    .subtext-pago { display: block; font-family: var(--font-texto); font-size: 0.8rem; font-weight: normal; margin-top: 5px; letter-spacing: 0; text-transform: none; opacity: 0.9; }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const botonesCompra = document.querySelectorAll('.btn-buy');
+        botonesCompra.forEach(boton => {
+            boton.addEventListener('click', function(e) {
+                e.preventDefault(); 
+                openModal('modalCompra'); 
+            });
+        });
+    });
+
+    function copyAlias() {
+        const aliasText = document.getElementById('aliasText').innerText;
+        navigator.clipboard.writeText(aliasText).then(() => {
+            const btn = document.getElementById('btnCopyAlias');
+            const textoOriginal = btn.innerText;
+            btn.innerText = "¡COPIADO!";
+            btn.style.background = "var(--gta-verde)";
+            btn.style.color = "white";
+            btn.style.animation = "none";
+            
+            setTimeout(() => {
+                btn.innerText = textoOriginal;
+                btn.style.background = "var(--gta-naranja)";
+                btn.style.color = "#000";
+                btn.style.animation = "pulseAlias 2s infinite";
+            }, 2000);
+        });
+    }
+</script>
 </body>
 </html>
